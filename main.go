@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	// fmt.Println("Calling ConnectDB()...") // Add this
 	config.ConnectDB()
 	// fmt.Println("Returned from ConnectDB()")
 	r := gin.Default()
@@ -22,15 +21,15 @@ func main() {
 	})
 
 	//  Protected route
-	r.GET("/protected", middleware.AuthMiddleware(), func(c *gin.Context) {
-		email := c.MustGet("email").(string)
-		c.JSON(200, gin.H{
-			"message": "Welcome to protected route!",
-			"email":   email,
-		})
-	})
-	routes.AuthRoutes(r)
+	// r.GET("/protected", middleware.AuthMiddleware(), func(c *gin.Context) {
+	// 	email := c.MustGet("email").(string)
+	// 	c.JSON(200, gin.H{
+	// 		"message": "Welcome to protected route!",
+	// 		"email":   email,
+	// 	})
+	// })
+	// routes.AuthRoutes(r)
 	
-	r.Run(":8000")
+	// r.Run(":8000")
 
-}
+// }
