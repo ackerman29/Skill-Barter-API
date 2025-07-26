@@ -157,6 +157,8 @@ func GetMyProfile(c *gin.Context) {
 		"createdAt":      user.CreatedAt,
 	})
 }
+
+
 func UpdateMyProfile(c *gin.Context) {
 	emailFromToken := c.MustGet("email").(string)
 

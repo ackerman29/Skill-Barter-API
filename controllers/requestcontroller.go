@@ -5,6 +5,8 @@ import (
 	"context"
 	"net/http"
 	"time"
+	"temp/websocket"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -51,6 +53,9 @@ func SendSkillRequest(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not send request"})
 		return
 	}
+	fmt.Println("DEBUG: Skill in request:", request.Skill)
+
+	websocket.SendToUser(request.ToEmail, fmt.Sprintf("Hey! You got a new skill request from %s for: %s", sender.Name, request.Skill))
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Skill request sent"})
 }

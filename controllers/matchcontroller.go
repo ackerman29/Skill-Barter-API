@@ -27,7 +27,7 @@ func MatchUsers(c *gin.Context) {
 		return
 	}
 
-	// Query to find matching users
+	// logic
 	cursor, err := collection.Find(ctx, bson.M{
 		"skillsHave": bson.M{"$in": currentUser.SkillsWant},
 		"skillsWant": bson.M{"$in": currentUser.SkillsHave},
