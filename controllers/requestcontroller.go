@@ -21,13 +21,13 @@ func getRequestCollection() *mongo.Collection {
 	return config.DB.Database("temp").Collection("requests")
 }
 
-// func SendSkillRequest(c *gin.Context) {
-// 	var request models.SkillRequest
+func SendSkillRequest(c *gin.Context) {
+	var request models.SkillRequest
 
-// 	if err := c.BindJSON(&request); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format"})
-// 		return
-// 	}
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format"})
+		return
+	}
 
 	fromEmail := c.MustGet("email").(string)
 
