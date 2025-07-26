@@ -45,26 +45,22 @@ func MatchUsers(c *gin.Context) {
 		wg         sync.WaitGroup
 	)
 
-	// Loop through cursor results in main goroutine
 	for cursor.Next(ctx) {
 		var user models.User
 		if err := cursor.Decode(&user); err != nil {
 			continue
 		}
 
-		// Spawn a goroutine to process user concurrently
 		wg.Add(1)
 		go func(u models.User) {
 			defer wg.Done()
 
-			// Safely append to matchNames
 			mu.Lock()
 			matchNames = append(matchNames, u.Name)
 			mu.Unlock()
 		}(user)
 	}
 
-	// Wait for all goroutines to complete
 	wg.Wait()
 
 	c.JSON(http.StatusOK, gin.H{
