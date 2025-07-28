@@ -44,6 +44,7 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()
 	conn.Close()
 }
+
 func SendToUser(email string, message string) {
 	mu.Lock()
 	conn, ok := connections[email]

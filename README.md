@@ -16,7 +16,8 @@ This is the backend API for a **Skill Barter Platform for Students**, where user
 - **Middleware:** JWT authentication, CORS
 - **API Format:** REST
 
----
+--------------------------------------------------------------------------------------------------------------
+
 
 ##  Setup Instructions
 
@@ -41,7 +42,7 @@ go run main.go
 
 The server will start on `http://localhost:8000`
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ##  Authentication Routes
 
@@ -57,7 +58,7 @@ Request Body:
 }
 ```
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ### POST `/auth/login`
 
@@ -78,7 +79,7 @@ Request Body:
 }
 ```
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ##  Protected Routes
 
@@ -88,7 +89,7 @@ Add `Authorization: Bearer <JWT>` header in requests.
 
 Fetch user profile.
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ### PUT `/auth/myprofile`
 
@@ -102,13 +103,13 @@ Update profile.
 }
 ```
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ### GET `/match`
 
 Returns a list of matched users based on skills.
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ##  Protected Test Route
 
@@ -116,7 +117,7 @@ Returns a list of matched users based on skills.
 
 Just to test JWT middleware.
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ##  CORS Setup
 
@@ -128,7 +129,7 @@ import "github.com/gin-contrib/cors"
 r.Use(cors.Default())
 ```
 
----
+--------------------------------------------------------------------------------------------------------------
 
 ##  Testing with Postman
 
@@ -139,4 +140,4 @@ You can test the APIs using tools like **Postman** or **curl**:
 3. Use JWT in protected routes
 4. Test `/auth/myprofile` and `/match`
 
----
+--------------------------------------------------------------------------------------------------------------
