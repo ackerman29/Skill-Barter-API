@@ -7,10 +7,13 @@ import (
 	"temp/middleware"
 	"temp/routes"
 	"github.com/gin-contrib/cors"
+	"os"
+	"github.com/joho/godotenv"
 	// "temp/helpers"
 )
 
 func main() {
+	godotenv.Load()
 	// fmt.Println("Calling ConnectDB()...") // Add this
 	config.ConnectDB()
 	// fmt.Println("Returned from ConnectDB()")
@@ -31,6 +34,11 @@ func main() {
 	})
 	routes.AuthRoutes(r)
 	
-	r.Run(":8000")
+	port := os.Getenv("PORT")
+if port == "" {
+    port = "8000" // default fallback for local dev
+}
+r.Run(":" + port)
+
 
 }

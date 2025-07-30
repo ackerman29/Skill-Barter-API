@@ -5,7 +5,7 @@ import (
     "fmt"
     "log"
     "time"
-
+    "os"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -13,7 +13,8 @@ import (
 var DB *mongo.Client
 
 func ConnectDB() *mongo.Client {
-    uri := "mongodb+srv://skillbarter_rupa:rupaskillbarter@barter.gdyiob8.mongodb.net/?retryWrites=true&w=majority&appName=Barter"
+    // uri := "mongodb+srv://skillbarter_rupa:rupaskillbarter@barter.gdyiob8.mongodb.net/?retryWrites=true&w=majority&appName=Barter"
+    uri := os.Getenv("MONGO_URI")
 
     client, err := mongo.NewClient(options.Client().ApplyURI(uri))
     if err != nil {
