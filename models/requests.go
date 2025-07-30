@@ -12,6 +12,6 @@ type SkillRequest struct {
 
 	ToEmail    string             `bson:"toEmail" json:"toEmail"`
 	Skill      string             `bson:"skill" json:"skill"`
-	Status     string             `bson:"status" json:"status"` // pending, accepted, rejected
+	Status     string             `bson:"status" json:"status"` //  accepted,rejected
 	CreatedAt  primitive.DateTime `bson:"createdAt" json:"createdAt"`
 }

@@ -9,7 +9,7 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		return true // allow all origins (adjust if needed)
+		return true 
 	},
 }
 
@@ -32,7 +32,6 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	connections[email] = conn
 	mu.Unlock()
 
-	// Optionally keep reading to prevent disconnection
 	for {
 		if _, _, err := conn.NextReader(); err != nil {
 			break

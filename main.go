@@ -19,12 +19,16 @@ func main() {
 	// fmt.Println("Returned from ConnectDB()")
 	r := gin.Default()
 	r.Use(cors.Default())
-	// Public route
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "PONG"})
 	})
+	r.GET("/", func(c *gin.Context) {
+    c.JSON(200, gin.H{
+        "message": "Skill Barter API is live!",
+    })
+})
 
-	//  Protected route
+
 	r.GET("/protected", middleware.AuthMiddleware(), func(c *gin.Context) {
 		email := c.MustGet("email").(string)
 		c.JSON(200, gin.H{
@@ -36,7 +40,7 @@ func main() {
 	
 	port := os.Getenv("PORT")
 if port == "" {
-    port = "8000" // default fallback for local dev
+    port = "8000" 
 }
 r.Run(":" + port)
 
