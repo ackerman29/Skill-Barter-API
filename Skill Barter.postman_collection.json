@@ -1,0 +1,18 @@
+{
+	"info": {
+		"_postman_id": "3ad439d0-93bd-41d6-a04f-bf044133ae82",
+		"name": "Skill Barter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33070966"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
