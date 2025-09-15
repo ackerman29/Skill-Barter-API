@@ -53,3 +53,14 @@ func SendToUser(email string, message string) {
 		conn.WriteMessage(websocket.TextMessage, []byte(message))
 	}
 }
+// SendChatMessage sends a chat message to all users in the chat
+func SendChatMessage(users []string, msg string) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	for _, u := range users {
+		if conn, ok := connections[u]; ok {
+			conn.WriteMessage(websocket.TextMessage, []byte(msg))
+		}
+	}
+}

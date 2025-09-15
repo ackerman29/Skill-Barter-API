@@ -7,9 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"temp/helpers"
 )
 
-var jwtSecret = []byte("your_secret_key_here") // same as in helpers
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -29,12 +29,12 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Parse token
+		// Parse token using the secret from helpers
 		token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method")
+				return nil, fmt.Errorf("unexpected signing method")
 			}
-			return jwtSecret, nil
+			return helpers.GetJWTSecret(), nil
 		})
 
 		if err != nil || !token.Valid {
@@ -43,7 +43,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Set user info in context (optional)
+		// Set user info in context
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
 			c.Set("email", claims["email"])
 		}

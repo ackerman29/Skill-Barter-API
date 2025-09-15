@@ -15,11 +15,14 @@ https://drive.google.com/file/d/1ghLobAz04YG58X3ccJamHeiw0FZCTkl2/view?usp=drive
 
 ##  Tech Stack
 
-- **Backend:** Go, Gin, MongoDB
+- **Backend:** Go, Gin
+- **Database:** MongoDB Atlas
 - **Authentication:** JWT + bcrypt
-- **Database:** MongoDB
-- **Middleware:** JWT authentication, CORS
-- **API Format:** REST
+- **API Format:** REST (JSON)
+- **Middleware:** CORS, JWT Auth
+- **WebSockets:** Gorilla Websockets for Real-time communication for requests/responses
+- **Hosting:** Render
+
 
 --------------------------------------------------------------------------------------------------------------
 

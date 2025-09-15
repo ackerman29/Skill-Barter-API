@@ -64,7 +64,7 @@ func SendSkillRequest(c *gin.Context) {
 func RespondToSkillRequest(c *gin.Context) {
 	var body struct {
 		FromName string `json:"fromName"`
-		Status   string `json:"status"` // "accepted" or"rejected"
+		Status   string `json:"status"` // "accepted" or "rejected"
 	}
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
@@ -76,20 +76,50 @@ func RespondToSkillRequest(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	// Find the pending request
 	filter := bson.M{
 		"fromName": body.FromName,
 		"toEmail":  toEmail,
 		"status":   "pending",
 	}
 
-	update := bson.M{"$set": bson.M{"status": body.Status}}
-
-	result, err := getRequestCollection().UpdateOne(ctx, filter, update)
-	if err != nil || result.MatchedCount == 0 {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update request (maybe not found or already handled)"})
+	var req models.SkillRequest
+	err := getRequestCollection().FindOne(ctx, filter).Decode(&req)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Request not found"})
 		return
+	}
+
+	// Update request status
+	update := bson.M{"$set": bson.M{"status": body.Status}}
+	_, err = getRequestCollection().UpdateOne(ctx, filter, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update request"})
+		return
+	}
+
+	if body.Status == "accepted" {
+		chatCollection := config.DB.Database("temp").Collection("chats")
+
+		// check if chat already exists
+		var existing models.ChatSession
+		err := chatCollection.FindOne(ctx, bson.M{"users": bson.M{"$all": []string{req.FromEmail, req.ToEmail}}}).Decode(&existing)
+
+		if err == mongo.ErrNoDocuments {
+			newChat := models.ChatSession{
+				ID:        primitive.NewObjectID(),
+				Users:     []string{req.FromEmail, req.ToEmail},
+				CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			}
+			_, err = chatCollection.InsertOne(ctx, newChat)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create chat"})
+				return
+			}
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Request updated"})
 }
+
 

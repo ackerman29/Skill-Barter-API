@@ -13,7 +13,9 @@ import (
 )
 
 func main() {
-	godotenv.Load()
+	if err := godotenv.Load(); err != nil {
+		panic("Failed to load .env file")
+	}
 	// fmt.Println("Calling ConnectDB()...") // Add this
 	config.ConnectDB()
 	// fmt.Println("Returned from ConnectDB()")
@@ -37,7 +39,12 @@ func main() {
 		})
 	})
 	routes.AuthRoutes(r)
-	
+	routes.WebSocketRoutes(r) 
+	r.POST("/chats/message/debug", func(c *gin.Context) {
+    c.JSON(200, gin.H{"ok": true})
+})
+	routes.ChatRoutes(r)  
+
 	port := os.Getenv("PORT")
 if port == "" {
     port = "8000" 
